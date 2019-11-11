@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="785da5ee-0dc3-481d-9cb4-c6eab6831dd2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/create_team_list" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_team_list" beforeDir="false" afterPath="$PROJECT_DIR$/create_team_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extract_match_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_match_results.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,7 +19,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../python_to_postgresql/python_to_postgresql.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/create_team_list" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -34,7 +33,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.create_team_list">
+  <component name="RunManager" selected="Python.extract_match_results">
     <configuration name="create_team_list" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="hifl_analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -47,7 +46,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/create_team_list" />
+      <option name="SCRIPT_NAME" value="C:\Users\joepc\PycharmProjects\hifl_analysis\create_team_list.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -100,8 +99,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.create_team_list" />
         <item itemvalue="Python.extract_match_results" />
+        <item itemvalue="Python.create_team_list" />
         <item itemvalue="Python.sql_extract" />
       </list>
     </recent_temporary>
