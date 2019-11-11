@@ -1,2 +1,2 @@
 # hifl_analysis
- Python/SQL code to extract data from the HIFL website and make predictions from it.
+ Python/SQL code which extracts match data from the HIFL website and performs analysis on this data in order to predict match results and league outcomes.
