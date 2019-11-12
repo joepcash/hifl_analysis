@@ -89,15 +89,15 @@ postgres_insert_query = """
         ON CONFLICT (result_id) DO NOTHING;"""
 
 for line in results:
-    temp = []
+    team_ids = []
     # Make result_id unique by combining date data with team ids.
     for i in range(1,3):
         cur.execute("""SELECT team_id
         FROM teams
         WHERE team_name = \'%s\'""" % line[i])
         conn.commit()
-        temp.append(cur.fetchall()[0][0])
-    id = line[0].replace('-','') + str(temp[0]) + str(temp[1])
+        team_ids.append(cur.fetchall()[0][0])
+    id = line[0].replace('-','') + str(team_ids[0]) + str(team_ids[1])
     cur.execute(postgres_insert_query % tuple([id] + line))
     conn.commit()
 

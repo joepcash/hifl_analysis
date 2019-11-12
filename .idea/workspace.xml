@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="785da5ee-0dc3-481d-9cb4-c6eab6831dd2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assign_elo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assign_elo.py" beforeDir="false" afterPath="$PROJECT_DIR$/assign_elo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_match_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_match_results.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

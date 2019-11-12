@@ -1,15 +1,30 @@
 import psycopg2
 from tabulate import tabulate
+from datetime import datetime
 
-conn = psycopg2.connect(host="localhost", database="hifl", \
+conn = psycopg2.connect(host="localhost", database="hifl",
                         user="postgres", password="banana")
 print("Database opened successfully")
 
 cur = conn.cursor()
 
+cur.execute("""
+    CREATE TABLE IF NOT EXISTS elo_date(
+    id BIGINT NOT NULL PRIMARY KEY,
+    date DATE NOT NULL,
+    team TEXT NOT NULL,
+    elo INT NOT NULL);""")
+conn.commit()
+postgres_insert_query = """
+        INSERT INTO elo_date
+        (id, date, team, elo)
+        VALUES
+        (%s, \'%s\', \'%s\', %s)
+        ON CONFLICT (id) DO NOTHING;"""
+
 # Get match results data.
 cur.execute("""
-    SELECT home_team, away_team, home_ft, away_ft
+    SELECT home_team, away_team, home_ft, away_ft, date
     FROM results
     ORDER BY DATE ASC""")
 results = cur.fetchall()
@@ -49,5 +64,25 @@ for result in results:
     elo[result[0]] = elo[result[0]] + 100*(home_sc - home_exp)
     elo[result[1]] = elo[result[1]] + 100*(away_sc - away_exp)
 
-for x,y in elo.items():
-    print(x,round(y))
+    team_ids = []
+    # Make id unique by combining date data with team id.
+    for i in range(2):
+        cur.execute("""SELECT team_id
+            FROM teams
+            WHERE team_name = \'%s\'""" % result[i])
+        conn.commit()
+        team_ids.append(cur.fetchall()[0][0])
+    home_id = str(result[4]).replace('-','') + str(team_ids[0])
+    away_id = str(result[4]).replace('-', '') + str(team_ids[1])
+    cur.execute(postgres_insert_query %\
+                (home_id, result[4], result[0], round(elo[result[0]])))
+    conn.commit()
+    cur.execute(postgres_insert_query % \
+                (away_id, result[4], result[1], round(elo[result[1]])))
+    conn.commit()
+
+cur.execute("""SELECT * FROM elo_date""")
+rows = cur.fetchall()
+print(tabulate(rows))
+
+conn.close()
