@@ -3,18 +3,20 @@ from tabulate import tabulate
 import psycopg2
 import statistics
 
-kfac = 100 # Range from 0, 500, 10
-div = 500 # Range from 10, 1000, 10
-dfac = 0.5 # Range: 0.1, 1, 0.1
+kfac = 100
+div = 700
+dfac = 0.9
 diff = 0
 results = []
 
-for kfac in [100]:
-    #print(round(100*(kfac-50)/(150-50)))
-    for x in [90]:
+# Sweep through range of values for each algorithm parameter.
+for kfac in range(50,151,20):
+    for x in range(80,101,2):
         dfac = x/100
-        for div in [700]:
+        for div in range(600, 801, 20):
             diff = 0
+
+            # Calculate elo values for each team by date.
             assign_elo.assign_elo(kfac,div)
 
             conn = psycopg2.connect(host="localhost", database="hifl",
@@ -22,6 +24,8 @@ for kfac in [100]:
             #print("Database opened successfully")
             cur = conn.cursor()
 
+            # Collect fixtures with each team paired with its most
+            # recent elo score.
             cur.execute("""
                 WITH elos AS
                     (SELECT elo_date.team, elo
@@ -49,13 +53,14 @@ for kfac in [100]:
                     ON elos.team = t2.away_team;""")
 
             fixtures = cur.fetchall()
-            teams = []
 
+            # Extract all team names from fixture data.
+            teams = []
             for i in range(len(fixtures)):
                 teams.append(fixtures[i][0])
-
             teams = list(set(teams))
 
+            # Start all teams on 0 points.
             points = {}
             for team in teams:
                 points[team] = [0, 0, 0]
@@ -84,6 +89,10 @@ for kfac in [100]:
                 points[fixture[3]][0] += ap_exp
                 points[fixture[3]][1] += ap_rl
             diff = []
+            # For each team, calculate the absolute difference
+            # between its expected and actual points, then average
+            # these differences to calculate the average difference
+            # from the average, basically a standard deviation.
             for i in range(len(teams)):
                 diff.append(abs(points[teams[i]][0]-points[teams[i]][1]))
             results.append([kfac, div, dfac, round(statistics.mean(diff),2)])

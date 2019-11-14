@@ -9,6 +9,7 @@ def predict_points(kfac, div, dfac):
     print("Database opened successfully")
     cur = conn.cursor()
 
+    # Collect all fixtures from database with each teams most recent elo score
     cur.execute("""
         WITH elos AS 
         (SELECT elo_date.team, elo
@@ -30,6 +31,7 @@ def predict_points(kfac, div, dfac):
         ON elos.team = t2.away_team;""")
     fixtures = cur.fetchall()
 
+    # Collect all team names.
     cur.execute("""
         SELECT teamname, points, played
         FROM league_table_1920;""")
@@ -56,7 +58,7 @@ def predict_points(kfac, div, dfac):
     for x,y in points.items():
         table.append([x,y[1],round(y[0])])
 
-    table = sorted(table, key=lambda x:x[1], reverse=True)
+    table = sorted(table, key=lambda x:x[2], reverse=True)
     conn.close()
     return table
 
