@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="785da5ee-0dc3-481d-9cb4-c6eab6831dd2" name="Default Changelist" comment="" />
+    <list default="true" id="785da5ee-0dc3-481d-9cb4-c6eab6831dd2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/all_games.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/predict_games.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/predict_points_v2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/prediction_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm_check.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm_check.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assign_elo.py" beforeDir="false" afterPath="$PROJECT_DIR$/assign_elo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_team_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_team_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_1920_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_1920_table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_fixtures.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_fixtures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_match_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/extract_match_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predict_points.py" beforeDir="false" afterPath="$PROJECT_DIR$/predict_points.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +44,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.predict_points">
-    <configuration name="algorithm_check" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.predict_games">
+    <configuration name="all_games" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="hifl_analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -44,7 +57,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm_check.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/all_games.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -74,7 +87,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="extract_1920_table" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="extract_match_results" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="hifl_analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -86,7 +99,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extract_1920_table.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extract_match_results.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -95,7 +108,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="extract_fixtures" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="predict_games" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="hifl_analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -107,7 +120,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extract_fixtures.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/predict_games.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,11 +152,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.predict_games" />
         <item itemvalue="Python.predict_points" />
-        <item itemvalue="Python.algorithm_check" />
         <item itemvalue="Python.assign_elo" />
-        <item itemvalue="Python.extract_1920_table" />
-        <item itemvalue="Python.extract_fixtures" />
+        <item itemvalue="Python.extract_match_results" />
+        <item itemvalue="Python.all_games" />
       </list>
     </recent_temporary>
   </component>

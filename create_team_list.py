@@ -50,7 +50,7 @@ postgres_insert_query = """
         ON CONFLICT (team_name) DO NOTHING;"""
 
 for i in range(len(data)):
-    cur.execute(postgres_insert_query % (i,data[i]))
+    cur.execute(postgres_insert_query % (i+100,data[i]))
     conn.commit()
 
 

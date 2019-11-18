@@ -1,42 +1,45 @@
 import psycopg2
-import requests
-#import urllib.request
-import time
-from bs4 import BeautifulSoup
 from tabulate import tabulate
 
-# Web address section to identify each season's results.
-seasons = ['212885780/1_226766634','838109370/1_181077792', '316926888/1_571996630']
+def get_results():
+    from bs4 import BeautifulSoup
+    import time
+    import requests
+    # Web address section to identify each season's results.
+    seasons = ['212885780/1_226766634','838109370/1_181077792', '316926888/1_571996630']
 
-results = []
+    results = []
 
-for season in seasons:
-    for page in range(1,6):
-        url = 'https://hifl.leaguerepublic.com/l/results/' + season + '/-1/-1/' + str(page) + '.html'
-        response = requests.get(url)
+    for season in seasons:
+        for page in range(1,10):
+            url = 'https://hifl.leaguerepublic.com/l/results/' + season + '/-1/-1/' + str(page) + '.html'
+            response = requests.get(url)
 
-        # Get HTML from url
-        soup = BeautifulSoup(response.text, 'html.parser')
-        # Find table in HTML
-        if soup.find('table'):
-            table = soup.find('table')
-        else:
-            break
-        table_body = table.find('tbody')
-        rows = table_body.find_all('tr')
-        data = []
-
-        # Convert extracted data into a table format
-        for row in rows:
-            cols = row.find_all('td')
-            cols = [ele.text.strip() for ele in cols]
-            data.append([ele for ele in cols if ele])  # Get rid of empty values
-
-        for i in range(len(data)):
-            # Remove walkovers.
-            if "W" in data[i][2]:
-                pass
+            # Get HTML from url
+            soup = BeautifulSoup(response.text, 'html.parser')
+            # Find table in HTML
+            if soup.find('table'):
+                table = soup.find('table')
             else:
+                break
+            table_body = table.find('tbody')
+            rows = table_body.find_all('tr')
+            data = []
+
+            # Convert extracted data into a table format
+            for row in rows:
+                cols = row.find_all('td')
+                cols = [ele.text.strip() for ele in cols]
+                data.append([ele for ele in cols if ele])  # Get rid of empty values
+
+            for i in range(len(data)):
+                # Assign 3-0 for walkovers.
+                if "W" in data[i][2]:
+                    if "H" in data[i][2]:
+                        data[i][2] = '3 - 0'
+                    if "A" in data[i][2]:
+                        data[i][2] = '0 - 3'
+                        del data[i][-1]
                 for j in range(len(data[i])):
                     # Remove formatting characters
                     data[i][j] = data[i][j].replace("\t","").\
@@ -60,49 +63,54 @@ for season in seasons:
                     data[i].append("null")
                 results.append(data[i])
 
-        # Pause code between web calls so not to have IP blocked.
-        time.sleep(1)
+            # Pause code between web calls so not to have IP blocked.
+            time.sleep(1)
+    return results
 
-conn = psycopg2.connect(host="localhost", database="hifl", \
-                        user="postgres", password="banana")
-print("Database opened successfully")
 
-cur = conn.cursor()
-cur.execute("""
-    CREATE TABLE IF NOT EXISTS results(
-    result_id BIGINT NOT NULL PRIMARY KEY,
-    date DATE NOT NULL,
-    home_team TEXT NOT NULL,
-    away_team TEXT NOT NULL,
-    home_ft INT NOT NULL,
-    away_ft INT NOT NULL,
-    home_ht INT,
-    away_ht INT);""")
-conn.commit()
+if __name__ == "__main__":
+    results = get_results()
 
-postgres_insert_query = """
-        INSERT INTO results
-        (result_id, date, home_team, away_team,
-        home_ft, away_ft, home_ht, away_ht)
-        VALUES
-        (%s, \'%s\', \'%s\', \'%s\', %s, %s, %s, %s)
-        ON CONFLICT (result_id) DO NOTHING;"""
+    conn = psycopg2.connect(host="localhost", database="hifl", \
+                            user="postgres", password="banana")
+    print("Database opened successfully")
 
-for line in results:
-    team_ids = []
-    # Make result_id unique by combining date data with team ids.
-    for i in range(1,3):
-        cur.execute("""SELECT team_id
-        FROM teams
-        WHERE team_name = \'%s\'""" % line[i])
-        conn.commit()
-        team_ids.append(cur.fetchall()[0][0])
-    id = line[0].replace('-','') + str(team_ids[0]) + str(team_ids[1])
-    cur.execute(postgres_insert_query % tuple([id] + line))
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS results(
+        result_id BIGINT NOT NULL PRIMARY KEY,
+        date DATE NOT NULL,
+        home_team TEXT NOT NULL,
+        away_team TEXT NOT NULL,
+        home_ft INT NOT NULL,
+        away_ft INT NOT NULL,
+        home_ht INT,
+        away_ht INT);""")
     conn.commit()
 
-cur.execute("""SELECT * FROM results""")
-rows = cur.fetchall()
-print(tabulate(rows))
+    postgres_insert_query = """
+            INSERT INTO results
+            (result_id, date, home_team, away_team,
+            home_ft, away_ft, home_ht, away_ht)
+            VALUES
+            (%s, \'%s\', \'%s\', \'%s\', %s, %s, %s, %s)
+            ON CONFLICT (result_id) DO NOTHING;"""
 
-conn.close()
+    for line in results:
+        team_ids = []
+        # Make result_id unique by combining date data with team ids.
+        for i in range(1,3):
+            cur.execute("""SELECT team_id
+            FROM teams
+            WHERE team_name = \'%s\'""" % line[i])
+            conn.commit()
+            team_ids.append(cur.fetchall()[0][0])
+        id = line[0].replace('-','') + str(team_ids[0]) + str(team_ids[1])
+        cur.execute(postgres_insert_query % tuple([id] + line))
+        conn.commit()
+
+    cur.execute("""SELECT * FROM results""")
+    rows = cur.fetchall()
+    print(tabulate(rows))
+
+    conn.close()

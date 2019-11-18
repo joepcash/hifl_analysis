@@ -28,6 +28,7 @@ def assign_elo(kfac, div):
     cur.execute("""
         SELECT home_team, away_team, home_ft, away_ft, date
         FROM results
+		WHERE home_ft IS NOT NULL
         ORDER BY DATE ASC""")
     results = cur.fetchall()
 
@@ -43,6 +44,16 @@ def assign_elo(kfac, div):
     elo = {}
     for i in range(len(teams)):
         elo[teams[i][0]] = 500
+        cur.execute("""SELECT team_id
+                        FROM teams
+                        WHERE team_name = \'%s\'""" % teams[i][0])
+        conn.commit()
+        team_id = '20100101' + str(cur.fetchall()[0][0])
+        cur.execute("""INSERT INTO elo_date
+            (id, date, team, elo)
+            VALUES
+            (%s, %s, %s, %s)
+            ON CONFLICT (id) DO NOTHING;""", (team_id, '2010-01-01', teams[i][0], 500))
 
     # For each match, assign teams new elo score based on result.
     for result in results:
@@ -87,7 +98,7 @@ def assign_elo(kfac, div):
 if __name__ == "__main__":
     from tabulate import tabulate
     import psycopg2
-    assign_elo(100,500)
+    assign_elo(100,700)
 
     conn = psycopg2.connect(host="localhost", database="hifl",
                                 user="postgres", password="banana")

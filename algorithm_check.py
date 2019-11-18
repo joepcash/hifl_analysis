@@ -10,10 +10,10 @@ diff = 0
 results = []
 
 # Sweep through range of values for each algorithm parameter.
-for kfac in range(50,151,20):
-    for x in range(80,101,2):
+for kfac in [100]:
+    for x in range(0,101,1):
         dfac = x/100
-        for div in range(600, 801, 20):
+        for div in [700]:
             diff = 0
 
             # Calculate elo values for each team by date.
